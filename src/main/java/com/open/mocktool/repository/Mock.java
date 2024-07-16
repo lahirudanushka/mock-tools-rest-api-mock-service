@@ -1,12 +1,13 @@
 package com.open.mocktool.repository;
 
 import com.open.mocktool.dto.Method;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.http.HttpMethod;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +29,8 @@ public class Mock {
     private Integer responseStatus;
     private Long serverDelay;
     private String owner;
+
+    private String lastModifiedBy;
     private Object responseBody;
 
     private Long usage;
@@ -36,5 +39,5 @@ public class Mock {
     @LastModifiedDate
     private LocalDateTime updatedDateTime;
 
-
+    private LocalDateTime lastUsedDateTime;
 }
