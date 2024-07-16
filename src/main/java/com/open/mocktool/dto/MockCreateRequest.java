@@ -2,6 +2,7 @@ package com.open.mocktool.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,7 @@ public class MockCreateRequest {
     @Schema(description = "Mock Description", defaultValue = "Test Mock API")
     private String description;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Http method", defaultValue = "[\"GET\"]")
     private List<Method> methodList ;
 
