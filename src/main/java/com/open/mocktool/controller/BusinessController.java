@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 @Hidden
 @Tag(name = "Mock Operation Controller", description = "All Mocks Are Served With These APIs")
@@ -20,7 +22,7 @@ public class BusinessController {
     private BusinessService apiService;
 
     @RequestMapping(value = {"/{id}", "/{id}/**"})
-    ResponseEntity<Object> getResponse(@PathVariable String id, HttpServletRequest request) {
+    CompletableFuture<ResponseEntity<Object>> getResponse(@PathVariable String id, HttpServletRequest request) {
         return apiService.getResponse(id, request.getMethod());
     }
 }

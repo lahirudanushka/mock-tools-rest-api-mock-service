@@ -26,19 +26,27 @@ public class UserManagementService {
 
     public ResponseEntity<Object> createUser(UserCreateRequest body) {
         try {
-            User user = new User();
-            user.setId(UUID.randomUUID().toString());
-            user.setName(body.getName());
-            user.setEmail(body.getEmail());
-            user.setPassword(BCrypt.hashpw(body.getPassword(), BCrypt.gensalt()));
-            user.setTeam(body.getTeam());
-            user.setCreatedBy(body.getEmail());
-            user.setCreatedDateTime(LocalDateTime.now());
-            user.setLastLogin(LocalDateTime.now());
-            user.setRole(body.getRole());
-            user = userRepository.save(user);
-            user.setPassword("*****************");
-            return ResponseEntity.ok(user);
+
+            Optional<User> existingUser = userRepository.findByEmail(body.getEmail().toLowerCase());
+            if (!existingUser.isPresent()) {
+                User user = new User();
+                user.setId(UUID.randomUUID().toString());
+                user.setName(body.getName());
+                user.setEmail(body.getEmail().toLowerCase());
+                user.setPassword(BCrypt.hashpw(body.getPassword(), BCrypt.gensalt()));
+                user.setTeam(body.getTeam());
+                user.setCreatedBy(body.getEmail());
+                user.setCreatedDateTime(LocalDateTime.now());
+                user.setLastLogin(LocalDateTime.now());
+                user.setRole(body.getRole());
+                user = userRepository.save(user);
+                user.setPassword("*****************");
+                return ResponseEntity.ok(user);
+            } else
+                throw new CommonException("400", "User already exist", HttpStatus.BAD_REQUEST, null);
+
+        } catch (CommonException e) {
+            throw e;
         } catch (Exception ex) {
             throw new CommonException("500", "Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR, ex.getStackTrace());
         }
@@ -60,7 +68,6 @@ public class UserManagementService {
         try {
             User u = userRepository.findById(id).get();
             u.setPassword("*****************");
-
             return ResponseEntity.ok(u);
         } catch (CommonException e) {
             throw e;
@@ -78,7 +85,6 @@ public class UserManagementService {
                 updated.setTeam(body.getTeam());
                 updated.setRole(body.getRole());
                 updated = userRepository.save(updated);
-
                 updated.setPassword("*****************");
                 return ResponseEntity.accepted().body(updated);
             } else

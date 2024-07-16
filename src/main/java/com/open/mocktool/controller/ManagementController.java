@@ -27,32 +27,32 @@ public class ManagementController {
     @Operation(summary = "Create Mock", description = "Create Mock API")
     @PostMapping(value = "/mock", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Object> createMock(@Valid @RequestBody MockCreateRequest body, HttpServletRequest httpServletRequest) {
-        return service.createMock(body,httpServletRequest);
+        return service.createMock(body, httpServletRequest);
     }
 
     @Operation(summary = "Update Mock", description = "Update Mock By Id")
     @PatchMapping(value = "/mock/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Object> updateMock(@Valid @RequestBody MockCreateRequest body, @PathVariable String id, HttpServletRequest httpServletRequest) {
-        return service.updateMock(body, id,httpServletRequest);
+        return service.updateMock(body, id, httpServletRequest);
     }
 
 
     @Operation(summary = "Get Mocks", description = "Get Mocks List With Pagination")
     @GetMapping(value = "/mock", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Object> getAllMocks(@RequestParam(defaultValue = "0") Integer pageNumber, @RequestParam(defaultValue = "10") Integer pageSize, HttpServletRequest request) {
-        return service.getAllMocks(pageNumber, pageSize);
+        return service.getAllMocks(pageNumber, pageSize, request);
     }
 
     @Operation(summary = "Get Mock", description = "Get Mock By ID")
     @GetMapping(value = "/mock/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Object> getMockById(@PathVariable String id, HttpServletRequest request) {
-        return service.getMockById(id);
+        return service.getMockById(id, request);
     }
 
 
     @Operation(summary = "Delete Mock", description = "Delete Mock By ID")
     @DeleteMapping(value = "/mock/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Object> deleteMockById(@PathVariable String id, HttpServletRequest request) {
-        return service.deleteMockById(id);
+        return service.deleteMockById(id, request);
     }
 }
