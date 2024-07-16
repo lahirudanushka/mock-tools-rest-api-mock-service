@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Data
 @ToString
 @AllArgsConstructor
@@ -21,7 +23,9 @@ public class UserCreateRequest {
     private String team;
 
     private RoleEnum role;
+    private String createBy;
 
+    private LocalDateTime createDateTime;
 
 }
 
