@@ -4,6 +4,7 @@ import com.open.mocktool.dto.MockCreateRequest;
 import com.open.mocktool.repository.Mock;
 import com.open.mocktool.repository.MockRepository;
 import com.open.mocktool.util.CommonException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,10 +23,16 @@ public class ManagementService {
     @Autowired
     private MockRepository mockRepository;
 
-    public ResponseEntity<Object> createMock(MockCreateRequest body) {
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
+    public ResponseEntity<Object> createMock(MockCreateRequest body, HttpServletRequest httpServletRequest) {
         try {
             Mock mock = new Mock();
             mock.setId(UUID.randomUUID().toString());
+            mock.setOwner(tokenProvider.extractUsername(tokenProvider.tokenExtractor(httpServletRequest)));
+            mock.setCreatedDateTime(LocalDateTime.now());
+            mock.setUsage(0L);
             mapMock(body, mock);
             mock = mockRepository.save(mock);
             return ResponseEntity.ok(mock);
@@ -43,10 +50,7 @@ public class ManagementService {
         mock.setResponseHeaders(body.getResponseHeaders());
         mock.setResponseStatus(body.getResponseStatus());
         mock.setServerDelay(body.getServerDelay());
-        mock.setOwner("GlobalAdmin");
         mock.setResponseBody(body.getResponseBody());
-        mock.setUsage(0L);
-        mock.setCreatedDateTime(LocalDateTime.now());
         mock.setUpdatedDateTime(LocalDateTime.now());
     }
 
@@ -71,11 +75,12 @@ public class ManagementService {
         }
     }
 
-    public ResponseEntity<Object> updateMock(MockCreateRequest body, String id) {
+    public ResponseEntity<Object> updateMock(MockCreateRequest body, String id, HttpServletRequest httpServletRequest) {
         try {
             Optional<Mock> mock = mockRepository.findById(id);
             if (mock.isPresent()) {
                 Mock updated = mock.get();
+                updated.setLastModifiedBy(tokenProvider.extractUsername(tokenProvider.tokenExtractor(httpServletRequest)));
                 mapMock(body, updated);
                 updated = mockRepository.save(updated);
                 return ResponseEntity.accepted().body(updated);

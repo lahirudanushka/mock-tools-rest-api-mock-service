@@ -2,9 +2,7 @@ package com.open.mocktool.controller;
 
 import com.open.mocktool.dto.MockCreateRequest;
 import com.open.mocktool.service.ManagementService;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,14 +26,14 @@ public class ManagementController {
 
     @Operation(summary = "Create Mock", description = "Create Mock API")
     @PostMapping(value = "/mock", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Object> createMock(@Valid @RequestBody MockCreateRequest body) {
-        return service.createMock(body);
+    ResponseEntity<Object> createMock(@Valid @RequestBody MockCreateRequest body, HttpServletRequest httpServletRequest) {
+        return service.createMock(body,httpServletRequest);
     }
 
     @Operation(summary = "Update Mock", description = "Update Mock By Id")
     @PatchMapping(value = "/mock/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Object> updateMock(@Valid @RequestBody MockCreateRequest body, @PathVariable String id) {
-        return service.updateMock(body,id);
+    ResponseEntity<Object> updateMock(@Valid @RequestBody MockCreateRequest body, @PathVariable String id, HttpServletRequest httpServletRequest) {
+        return service.updateMock(body, id,httpServletRequest);
     }
 
 

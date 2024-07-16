@@ -2,7 +2,6 @@ package com.open.mocktool.controller;
 
 import com.open.mocktool.dto.LoginRequest;
 import com.open.mocktool.service.JwtTokenProvider;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
