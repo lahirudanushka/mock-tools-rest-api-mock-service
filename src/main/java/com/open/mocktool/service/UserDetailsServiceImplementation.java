@@ -2,8 +2,10 @@ package com.open.mocktool.service;
 
 
 import com.open.mocktool.repository.UserRepository;
+import com.open.mocktool.util.CommonException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -26,11 +28,16 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            log.debug("Loading user by username"+ username);
-            Optional<com.open.mocktool.repository.User> dbUser = userRepository.findByEmail(username);
-            return new User(username, dbUser.get().getPassword(), getAuthorities(Collections.singletonList(dbUser.get().getRole().toString())));
-        } catch (Exception exp) {
-            throw new UsernameNotFoundException("User Not Found : " + username);
+            log.debug("Loading user by username" + username);
+            Optional<com.open.mocktool.repository.User> dbUser = userRepository.findByEmail(username.toLowerCase());
+            if (dbUser.isPresent())
+                return new User(username, dbUser.get().getPassword(), getAuthorities(Collections.singletonList(dbUser.get().getRole().toString())));
+            else
+                throw new UsernameNotFoundException("User Not Found : " + username);
+        } catch (CommonException e) {
+            throw e;
+        } catch (Exception ex) {
+            throw new CommonException("500", "Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR, ex.getStackTrace());
         }
     }
 

@@ -39,8 +39,11 @@ public class MockCreateRequest {
     @Schema(description = "Response status code", defaultValue = "200")
     private Integer responseStatus = 200;
 
-    @Schema(description = "Server Delay in Seconds- 5s Max")
+    @Schema(description = "Server Delay in Milliseconds- 5000ms Max")
     private Long serverDelay = 0L;
     private Object responseBody;
 
+    @Schema(description = "Is this a shared manageable mock?", defaultValue = "false")
+    @NotNull
+    private Boolean isShared ;
 }

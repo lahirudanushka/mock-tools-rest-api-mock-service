@@ -30,6 +30,8 @@ public class Mock {
     private Long serverDelay;
     private String owner;
 
+    private Boolean isShared;
+
     private String lastModifiedBy;
     private Object responseBody;
 
@@ -40,4 +42,9 @@ public class Mock {
     private LocalDateTime updatedDateTime;
 
     private LocalDateTime lastUsedDateTime;
+
+
+    private String url;
+
+
 }
