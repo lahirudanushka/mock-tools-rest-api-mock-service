@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "User Management Controller", description = "APIs for managing users")
+@CrossOrigin("*")
 @RequestMapping(value = "/admin")
 public class UserManagementController {
 

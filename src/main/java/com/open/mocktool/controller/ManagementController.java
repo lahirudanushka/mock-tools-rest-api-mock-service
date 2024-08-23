@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Mock Management Controller", description = "APIs for managing mocks")
-
+@CrossOrigin("*")
 @RequestMapping(value = "/admin")
 public class ManagementController {
 
     @Autowired
     private ManagementService service;
+
 
     @Operation(summary = "Create Mock", description = "Create Mock API")
     @PostMapping(value = "/mock", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,7 +40,7 @@ public class ManagementController {
 
     @Operation(summary = "Get Mocks", description = "Get Mocks List With Pagination")
     @GetMapping(value = "/mock", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Object> getAllMocks(@RequestParam(defaultValue = "0") Integer pageNumber, @RequestParam(defaultValue = "10") Integer pageSize, HttpServletRequest request) {
+    ResponseEntity<Object> getAllMocks(@RequestParam(defaultValue = "0",required = false) Integer pageNumber, @RequestParam(defaultValue = "10",required = false) Integer pageSize, HttpServletRequest request) {
         return service.getAllMocks(pageNumber, pageSize, request);
     }
 
