@@ -6,11 +6,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -23,8 +21,13 @@ public class BusinessController {
     @Autowired
     private BusinessService apiService;
 
-    @RequestMapping(value = {"/{id}", "/{id}/**"})
-    CompletableFuture<ResponseEntity<Object>> getResponse(@PathVariable String id, HttpServletRequest request) {
-        return apiService.getResponse(id, request.getMethod());
+    @RequestMapping(value = {"/{id}","/{id}/{path_1}","/{id}/{path_1}/{path_2}","/{id}/{path_1}/{path_2}/{path_3}", "/{id}/**"})
+    CompletableFuture<ResponseEntity<Object>> getResponse(@PathVariable("id") String id,
+                                                          @PathVariable Map<String, String> allPathVars,
+                                                          @RequestParam Map<String, String> allParams,
+                                                          @RequestHeader Map<String, String> allHeaders,
+                                                          @RequestBody(required = false) String requestBody,
+                                                          HttpServletRequest request) {
+        return apiService.getResponse(id,allParams, allHeaders,requestBody,request.getMethod(),allPathVars);
     }
 }

@@ -48,15 +48,11 @@ public class ManagementService {
     }
 
     private static void mapMock(MockCreateRequest body, Mock mock) {
-
         mock.setGroup(body.getGroup());
         mock.setTitle(body.getTitle());
         mock.setDescription(body.getDescription());
-        mock.setMethodList(body.getMethodList());
-        mock.setResponseHeaders(body.getResponseHeaders());
-        mock.setResponseStatus(body.getResponseStatus());
-        mock.setServerDelay(body.getServerDelay());
-        mock.setResponseBody(body.getResponseBody());
+        mock.setMockInstances(body.getMockInstances());
+        mock.setResponseRules(body.getResponseRules());
         mock.setUpdatedDateTime(LocalDateTime.now());
         mock.setIsShared(body.getIsShared());
     }

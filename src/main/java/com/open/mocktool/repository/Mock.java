@@ -1,6 +1,9 @@
 package com.open.mocktool.repository;
 
 import com.open.mocktool.dto.Method;
+import com.open.mocktool.dto.MockCreateRequestItem;
+import com.open.mocktool.dto.MockCreateRuleMap;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,16 +27,16 @@ public class Mock {
     private String group;
     private String title;
     private String description;
-    private List<Method> methodList;
-    private Map<String, String> responseHeaders;
-    private Integer responseStatus;
-    private Long serverDelay;
+    private List<MockCreateRuleMap> responseRules;
+
+    @Schema(description = "Mock Instances")
+    List<MockCreateRequestItem> mockInstances;
     private String owner;
 
     private Boolean isShared;
 
     private String lastModifiedBy;
-    private Object responseBody;
+
 
     private Long usage;
     @CreatedDate
